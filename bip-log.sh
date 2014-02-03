@@ -8,6 +8,7 @@ then
 	exit 1
 fi
 
+## see http://misc.flogisoft.com/bash/tip_colors_and_formatting#colors1
 colora="1"
 colorb="2"
 colorc="3"
@@ -50,7 +51,6 @@ IFS="
 
 for line in `cat $file`
 do
-	#echo "Processing line:: $line"
 	lineTime=`echo $line | cut -d" " -f 2`
 	lineToken=`echo $line | cut -d" " -f 3`
 	lineUser=`echo $line | cut -d" " -f 4 | cut -d! -f 1`
@@ -80,13 +80,15 @@ do
 			echo "Unknow token: $lineUser $lineTexte"
 			;;
 		">"|"<")
-
+			## I am talking
 			if [ $lineToken == ">" ]
 			then
 				lineUser=${lineUser/:/}
 				colorNumber="208"
 				bracketsColor="21"
+			## other people are talking
 			else
+				## this could be improved
 				md5User=`echo $lineUser | md5sum`
 				charUser=${md5User:0:1}
 				charUser=${charUser,,}
