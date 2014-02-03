@@ -77,6 +77,14 @@ do
 				echo -e $lineUser $lineText
 				continue
 			fi
+
+			if [[ $lineText == *changed\ topic\ of* ]]
+			then
+				echo -en "+++ $lineUser"
+				echo -e $lineText
+			fi
+
+
 			echo "Unknow token: $lineUser $lineTexte"
 			;;
 		">"|"<")
