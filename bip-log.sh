@@ -62,10 +62,16 @@ do
 			then
 				echo -en "+++ $lineUser"
 				echo -e $lineText
+				continue
 			fi
 
+			if [[ $lineText == *is\ now\ known\ as\ * ]]
+			then
+				echo -e "+++ $lineUser $lineText"
+				continue
+			fi
 
-			echo "Unknow token: $lineUser $lineTexte"
+			echo "Unknow token: $line"
 			;;
 		">"|"<")
 			## I am talking
