@@ -74,7 +74,15 @@ do
 			echo "Unknow token: $line"
 			;;
 		">"|"<")
+			isMe=0
 			## I am talking
+			if [ "$lineUser" == "*" ]
+			then
+				isMe=1
+				lineUser=`echo $lineText | cut -d" " -f 1`
+				lineText=${lineText#* }
+			fi
+
 			if [ $lineToken == ">" ]
 			then
 				lineUser=${lineUser/:/}
@@ -92,9 +100,17 @@ do
 			fi
 
 			echo -n "$lineTime "
-			echo -en "\e[38;5;${bracketsColor}m<\e[0m"
+			if [ $isMe -eq 1 ]
+			then
+				echo -n "*** "
+			else
+				echo -en "\e[38;5;${bracketsColor}m<\e[0m"
+			fi
 			echo -en "\e[38;5;${colorNumber}m$lineUser\e[0m"
-			echo -en "\e[38;5;${bracketsColor}m>\e[0m"
+			if [ $isMe -eq 0 ]
+			then
+				echo -en "\e[38;5;${bracketsColor}m>\e[0m"
+			fi
 			echo " $lineText"
 			;;
 	esac
