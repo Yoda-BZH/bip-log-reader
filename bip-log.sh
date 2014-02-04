@@ -40,34 +40,34 @@ do
 			#echo "testing $lineUser $lineText"
 			if [[ $lineUser == mode/* ]]
 			then
-				echo ">>> Mode change $lineUser $lineText"
+				echo "$lineTime >>> Mode change $lineUser $lineText"
 				continue	
 			fi
 
 			if [[ $lineText == *has\ joined* ]]
 			then
-				echo -en ">>> Join: "
+				echo -en "$lineTime >>> Join: "
 				echo -e $lineUser $lineText
 				continue
 			fi
 			
 			if [[ $lineText == *has\ quit* ]]
 			then
-				echo -en "<<< Quit: "
+				echo -en "$lineTime <<< Quit: "
 				echo -e $lineUser $lineText
 				continue
 			fi
 
 			if [[ $lineText == *changed\ topic\ of* ]]
 			then
-				echo -en "+++ $lineUser"
+				echo -en "$lineTime +++ $lineUser"
 				echo -e $lineText
 				continue
 			fi
 
 			if [[ $lineText == *is\ now\ known\ as\ * ]]
 			then
-				echo -e "+++ $lineUser $lineText"
+				echo -e "$lineTime +++ $lineUser $lineText"
 				continue
 			fi
 
