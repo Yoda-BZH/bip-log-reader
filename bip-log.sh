@@ -26,6 +26,13 @@ color7="114"
 color8="124"
 color9="128"
 
+cacheColors="/tmp/bip-log-colors"
+if [ -f $cacheColors ]
+then
+	rm $cacheColors
+fi
+touch $cacheColors
+
 IFS="
 "
 
@@ -90,12 +97,19 @@ do
 				bracketsColor="21"
 			## other people are talking
 			else
-				## this could be improved
-				md5User=`echo $lineUser | md5sum`
-				charUser=${md5User:0:1}
-				charUser=${charUser,,}
-				color="color$charUser"
-				colorNumber=${!color}
+				cachedColor=`cat $cacheColors | grep "^$lineUser " | cut -d" " -f 2`
+				if [ -z "$cachedColor" ]
+				then
+					## this could be improved
+					md5User=`echo $lineUser | md5sum`
+					charUser=${md5User:0:1}
+					charUser=${charUser,,}
+					color="color$charUser"
+					colorNumber=${!color}
+					echo "$lineUser $colorNumber" >> $cacheColors
+				else
+					colorNumber=$cachedColor
+				fi
 				bracketsColor="226"
 			fi
 
@@ -115,3 +129,5 @@ do
 			;;
 	esac
 done
+
+rm $cacheColors
