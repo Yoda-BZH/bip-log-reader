@@ -64,6 +64,13 @@ do
 				echo -e $lineUser $lineText
 				continue
 			fi
+			
+			if [[ $lineText == *has\ left* ]]
+			then
+				echo -en "$lineTime <<< Left: "
+				echo -e $lineUser $lineText
+				continue
+			fi
 
 			if [[ $lineText == *changed\ topic\ of* ]]
 			then
