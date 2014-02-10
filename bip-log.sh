@@ -93,7 +93,7 @@ do
 			if [ "$lineUser" == "*" ]
 			then
 				isMe=1
-				lineUser=`echo $lineText | cut -d" " -f 1`
+				lineUser=`echo $lineText | cut -d"!" -f 1`
 				lineText=${lineText#* }
 			fi
 
