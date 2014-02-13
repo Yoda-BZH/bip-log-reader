@@ -79,6 +79,12 @@ do
 				continue
 			fi
 
+			if [[ $lineText == *has\ been\ kicked\ by\ * ]]
+			then
+				echo -e "$lineTime === $lineUser $lineText"
+				continue
+			fi
+
 			if [[ $lineText == *is\ now\ known\ as\ * ]]
 			then
 				echo -e "$lineTime +++ $lineUser $lineText"
