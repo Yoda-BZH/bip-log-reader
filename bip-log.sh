@@ -4,8 +4,9 @@ file=$1
 
 if [ -z "$file" ]
 then
-	echo "No file input"
-	exit 1
+	#echo "No file input"
+	#exit 1
+	echo -n ""
 fi
 
 ## see http://misc.flogisoft.com/bash/tip_colors_and_formatting#colors1
@@ -36,12 +37,12 @@ touch $cacheColors
 IFS="
 "
 
-for line in `cat $file`
+for line in $(cat $file)
 do
-	lineTime=`echo $line | cut -d" " -f 2`
-	lineToken=`echo $line | cut -d" " -f 3`
-	lineUser=`echo $line | cut -d" " -f 4 | cut -d! -f 1`
-	lineText=`echo $line | cut -d" " -f 5-`
+	lineTime=$(echo $line | cut -d" " -f 2)
+	lineToken=$(echo $line | cut -d" " -f 3)
+	lineUser=$(echo $line | cut -d" " -f 4 | cut -d! -f 1)
+	lineText=$(echo $line | cut -d" " -f 5-)
 	case "$lineToken" in
 		"-!-")
 			#echo "testing $lineUser $lineText"
@@ -99,7 +100,7 @@ do
 			if [ "$lineUser" == "*" ]
 			then
 				isMe=1
-				lineUser=`echo $lineText | cut -d"!" -f 1`
+				lineUser=$(echo $lineText | cut -d"!" -f 1)
 				lineText=${lineText#* }
 			fi
 
@@ -110,11 +111,11 @@ do
 				bracketsColor="21"
 			## other people are talking
 			else
-				cachedColor=`cat $cacheColors | grep "^$lineUser " | cut -d" " -f 2`
+				cachedColor=$(grep "^$lineUser " $cacheColors | cut -d" " -f 2)
 				if [ -z "$cachedColor" ]
 				then
 					## this could be improved
-					md5User=`echo $lineUser | md5sum`
+					md5User=$(echo $lineUser | md5sum)
 					charUser=${md5User:0:1}
 					charUser=${charUser,,}
 					color="color$charUser"
