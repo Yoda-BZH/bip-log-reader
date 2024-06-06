@@ -1,5 +1,33 @@
 #!/bin/bash
 
+OPTS=$(getopt -o hc -l help,chat,chat-only -- "$@")
+eval set -- $OPTS
+
+chat_only=0
+
+while [ true ]
+do
+	case "$1" in
+		-h|--help)
+			do_help
+			shift
+			exit 0
+			;;
+		-c|--chat|--chat-only)
+			chat_only=1
+			shift
+			;;
+		--)
+			shift
+			break
+			;;
+		*)
+			echo "Option '$1' unknown"
+			exit 1
+			;;
+	esac
+done
+
 file=$1
 
 if [ -z "$file" ]
@@ -45,6 +73,10 @@ do
 	lineText=$(echo $line | cut -d" " -f 5-)
 	case "$lineToken" in
 		"-!-")
+			if [[ $chat_only == 1 ]]
+			then
+				continue
+			fi
 			#echo "testing $lineUser $lineText"
 			if [[ $lineUser == mode/* ]]
 			then
