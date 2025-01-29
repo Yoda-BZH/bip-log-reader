@@ -5,6 +5,15 @@ eval set -- $OPTS
 
 chat_only=0
 
+function do_help {
+	echo "Usage: bip-log [-h|--help] [-c|--chat|--chat-only] logfile"
+	echo ""
+	echo "Options:"
+	echo "  -h	--help		      This help message"
+	echo "  -c	--chat --chat-only    Hide join/part messages, keeping only chat logs"
+	echo ""
+}
+
 while [ true ]
 do
 	case "$1" in
